@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Configuration - Add this before uploading - It's a shame that Intune doesn't have secrets support... :(
-CLIENT_ID=b0b544c22dec4e29a6582d0c262d0a72
-CLIENT_SECRET=XnjDKckWLy4ZpYo1f6F0JP9IQv8hO73iNtT2CS5a
-CS_CCID=8C11C1DE8A5C415A8480F8D01075CCB4-72
+CLIENT_ID=
+CLIENT_SECRET=
+CS_CCID=
 CS_INSTALL_TOKEN=
 
 if [[ $EUID -ne 0 ]]; then
