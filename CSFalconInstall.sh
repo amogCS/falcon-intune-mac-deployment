@@ -32,12 +32,12 @@ function fetch_json_path() {
     local field_str=''
     for i in "$@"; do
         if [[ $i =~ ^[[:digit:]]*$ ]]; then
-            field_str="${field_str}[${i}]"
+            field_str="${field_str}->[${i}]"
         else
-            field_str="${field_str}[\"${i}\"]"
+            field_str="${field_str}->{'${i}'}"
         fi
     done
-    /usr/bin/python2.7 -c "import json,sys;print json.load(sys.stdin)${field_str}"
+    json_xs -t none -e "print \$_${field_str}"
 }
 
 function get_access_token() {
