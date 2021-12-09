@@ -21,7 +21,7 @@ CS_INSTALL_TOKEN=
 
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 FALCONCTL=/Applications/Falcon.app/Contents/Resources/falconctl
-PKG_FILE=/tmp/FalconSensorMacOS.pkg
+PKG_FILE="${TMPDIR:-/tmp}/FalconSensorMacOS.pkg"
 
 if (( EUID )); then
     echo "This script must be run as root"
@@ -69,9 +69,10 @@ if [[ -x $FALCONCTL ]] && "${FALCONCTL}" stats 2>&1 | grep -F 'Sensor operationa
 else
     APITOKEN=$(get_access_token)
     FALCON_LATEST_SHA256=$(get_sha256 "${APITOKEN}")
+    rm -f "${PKG_FILE}"
     curl -o "${PKG_FILE}" -s -H "Authorization: Bearer ${APITOKEN}" "${BASE_URL}/sensors/entities/download-installer/v1?id=${FALCON_LATEST_SHA256}"
     installer -verboseR -package "${PKG_FILE}" -target /
-    rm "${PKG_FILE}"
+    rm -f "${PKG_FILE}"
     "${FALCONCTL}" license "${CS_CCID}" "${CS_INSTALL_TOKEN}" || true # Don't fail if the app is already licensed, but still needs a reinstall
 fi
 
